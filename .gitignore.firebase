@@ -1,0 +1,6 @@
+# Add .env to gitignore (optional - Firebase keys are safe to commit)
+.env
+.env.local
+
+# Keep .env.example for reference
+!.env.example
