@@ -47,7 +47,7 @@ const HomePage = () => {
             {/* Header với 3 Logo */}
             <header className="pt-8 pb-6">
                 <div className="container mx-auto px-4">
-                    <div className="flex items-center justify-center gap-8 md:gap-16 flex-wrap">
+                    <div className="flex items-center justify-center gap-4 md:gap-16 flex-wrap">
                         {/* Logo TK_connection - Trái */}
                         <motion.div
                             initial={{ opacity: 0, x: -50 }}
