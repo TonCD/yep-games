@@ -129,14 +129,14 @@ const JudgeScoringPage = () => {
               />
               <div>
                 <div className="font-bold">{currentJudge.name}</div>
-                <div className="text-sm opacity-80">Giám khảo</div>
+                <div className="text-sm opacity-80">Giám khảo | 裁判</div>
               </div>
             </div>
             
             <div className="text-sm text-right">
               <div className="opacity-80">Host: {room.hostName}</div>
               <div className="opacity-80">
-                {room.performances.length} tiết mục
+                {room.performances.length} tiết mục | {room.performances.length} 节目
               </div>
             </div>
           </div>
@@ -150,8 +150,11 @@ const JudgeScoringPage = () => {
             <h2 className="text-3xl font-bold text-gray-800 mb-4">
               Chấm điểm hoàn tất!
             </h2>
-            <p className="text-gray-600 mb-6">
+            <p className="text-gray-600 mb-2">
               Cảm ơn bạn đã tham gia chấm điểm!
+            </p>
+            <p className="text-gray-500 text-sm mb-6">
+              评分完成！感谢您的参与！
             </p>
             <Link
               to="/scoring"
@@ -166,8 +169,11 @@ const JudgeScoringPage = () => {
             <h2 className="text-2xl font-bold text-gray-800 mb-4">
               Đang chờ tiết mục...
             </h2>
-            <p className="text-gray-600">
+            <p className="text-gray-600 mb-2">
               Host đang chuẩn bị các tiết mục. Vui lòng đợi!
+            </p>
+            <p className="text-gray-500 text-sm">
+              正在等待节目...主持人正在准备中。
             </p>
           </div>
         ) : (
@@ -190,14 +196,14 @@ const JudgeScoringPage = () => {
                       {performance.name}
                     </h3>
                     {myScore !== null && (
-                      <div className="bg-green-100 text-green-700 px-3 py-1 rounded-full font-bold">
-                        ✓ Đã chấm: {myScore}
+                      <div className="bg-green-100 text-green-700 px-3 py-1 rounded-full font-bold text-sm">
+                        ✓ Đã chấm: {myScore} | 已评: {myScore}
                       </div>
                     )}
                   </div>
 
                   <div className="text-sm text-gray-600 mb-4">
-                    Tiết mục #{performance.order}
+                    Tiết mục #{performance.order} | 节目 #{performance.order}
                   </div>
 
                   {/* Score Buttons */}
@@ -222,7 +228,7 @@ const JudgeScoringPage = () => {
 
                   {myScore !== null && (
                     <div className="mt-4 text-center text-sm text-gray-600">
-                      Nhấn điểm khác để thay đổi
+                      Nhấn điểm khác để thay đổi | 点击其他分数修改
                     </div>
                   )}
                 </motion.div>
@@ -235,20 +241,20 @@ const JudgeScoringPage = () => {
         {!room.isCompleted && room.performances.length > 0 && (
           <div className="mt-8 bg-white rounded-2xl shadow-2xl p-6">
             <h3 className="text-xl font-bold text-gray-800 mb-4">
-              📊 Tổng quan điểm của bạn
+              📊 Tổng quan điểm của bạn | 您的评分概览
             </h3>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
               <div className="bg-blue-50 p-4 rounded-lg text-center">
                 <div className="text-3xl font-bold text-blue-600">
                   {room.performances.filter((p) => getMyScore(p.id) !== null).length}
                 </div>
-                <div className="text-sm text-gray-600 mt-1">Đã chấm</div>
+                <div className="text-sm text-gray-600 mt-1">Đã chấm | 已评</div>
               </div>
               <div className="bg-gray-50 p-4 rounded-lg text-center">
                 <div className="text-3xl font-bold text-gray-600">
                   {room.performances.filter((p) => getMyScore(p.id) === null).length}
                 </div>
-                <div className="text-sm text-gray-600 mt-1">Chưa chấm</div>
+                <div className="text-sm text-gray-600 mt-1">Chưa chấm | 未评</div>
               </div>
               <div className="bg-green-50 p-4 rounded-lg text-center">
                 <div className="text-3xl font-bold text-green-600">
@@ -261,13 +267,13 @@ const JudgeScoringPage = () => {
                     : 0}
                   %
                 </div>
-                <div className="text-sm text-gray-600 mt-1">Hoàn thành</div>
+                <div className="text-sm text-gray-600 mt-1">Hoàn thành | 完成</div>
               </div>
               <div className="bg-purple-50 p-4 rounded-lg text-center">
                 <div className="text-3xl font-bold text-purple-600">
                   {room.performances.length}
                 </div>
-                <div className="text-sm text-gray-600 mt-1">Tổng tiết mục</div>
+                <div className="text-sm text-gray-600 mt-1">Tổng tiết mục | 总节目</div>
               </div>
             </div>
           </div>
