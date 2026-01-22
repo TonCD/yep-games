@@ -14,13 +14,13 @@ const HomePage = () => {
         {
             name: 'James Wang',
             image: jamesWang,
-            messageEN: 'Thank you for your dedication and hard work!',
+            messageVN: 'Cảm ơn sự cống hiến và làm việc chăm chỉ của các bạn!',
             messageCN: '感谢您的奉献和辛勤工作！',
         },
         {
             name: 'Gou HuaDe',
-            image: GouHuaDe, // Placeholder cho sếp thứ 2
-            messageEN: 'Your efforts make our company stronger!',
+            image: GouHuaDe,
+            messageVN: 'Những nỗ lực của các bạn làm cho công ty chúng ta mạnh mẽ hơn!',
             messageCN: '您的努力使我们的公司更强大！',
         },
     ];
@@ -111,14 +111,14 @@ const HomePage = () => {
                             <div className="bg-white rounded-2xl shadow-2xl p-8 h-full cursor-pointer hover:shadow-3xl transition-all">
                                 <div className="text-6xl mb-4 text-center">🎡</div>
                                 <h2 className="text-3xl font-bold text-gray-800 mb-3 text-center">
-                                    Lucky Wheel
+                                    Vòng Quay May Mắn
                                 </h2>
                                 <p className="text-gray-600 text-center">
-                                    Spin the wheel and find the lucky winner!
+                                    Quay vòng và tìm ra người may mắn!
                                 </p>
                                 <div className="mt-6 text-center">
                                     <span className="inline-block px-6 py-2 bg-gradient-to-r from-blue-500 to-indigo-500 text-white rounded-full font-semibold">
-                                        Play Now →
+                                        Chơi Ngay →
                                     </span>
                                 </div>
                             </div>
@@ -137,14 +137,14 @@ const HomePage = () => {
                             <div className="bg-white rounded-2xl shadow-2xl p-8 h-full cursor-pointer hover:shadow-3xl transition-all">
                                 <div className="text-6xl mb-4 text-center">🎲</div>
                                 <h2 className="text-3xl font-bold text-gray-800 mb-3 text-center">
-                                    Bingo Game
+                                    Lô Tô
                                 </h2>
                                 <p className="text-gray-600 text-center">
-                                    Traditional Vietnamese bingo game!
+                                    LÔ TÔ Việt Nam!
                                 </p>
                                 <div className="mt-6 text-center">
                                     <span className="inline-block px-6 py-2 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-full font-semibold">
-                                        Play Now →
+                                        Chơi Ngay →
                                     </span>
                                 </div>
                             </div>
@@ -163,14 +163,14 @@ const HomePage = () => {
                             <div className="bg-white rounded-2xl shadow-2xl p-8 h-full cursor-pointer hover:shadow-3xl transition-all">
                                 <div className="text-6xl mb-4 text-center">🎭</div>
                                 <h2 className="text-3xl font-bold text-gray-800 mb-3 text-center">
-                                    Performance Scoring
+                                    Chấm Điểm Tiết Mục
                                 </h2>
                                 <p className="text-gray-600 text-center">
-                                    Score performances and see rankings!
+                                    Chấm điểm và xem bảng xếp hạng!
                                 </p>
                                 <div className="mt-6 text-center">
                                     <span className="inline-block px-6 py-2 bg-gradient-to-r from-pink-500 to-red-500 text-white rounded-full font-semibold">
-                                        Score Now →
+                                        Chấm Điểm →
                                     </span>
                                 </div>
                             </div>
@@ -189,14 +189,14 @@ const HomePage = () => {
                             <div className="bg-white rounded-2xl shadow-2xl p-8 h-full cursor-pointer hover:shadow-3xl transition-all">
                                 <div className="text-6xl mb-4 text-center">👗</div>
                                 <h2 className="text-3xl font-bold text-gray-800 mb-3 text-center">
-                                    Dresscode Vote
+                                    Bình Chọn Dresscode
                                 </h2>
                                 <p className="text-gray-600 text-center">
-                                    Vote for the best dresscode today!
+                                    Bình chọn dresscode đẹp nhất hôm nay!
                                 </p>
                                 <div className="mt-6 text-center">
                                     <span className="inline-block px-6 py-2 bg-gradient-to-r from-pink-500 to-purple-600 text-white rounded-full font-semibold">
-                                        Vote Now →
+                                        Bình Chọn →
                                     </span>
                                 </div>
                             </div>
@@ -212,7 +212,7 @@ const HomePage = () => {
                     className="text-center mt-12"
                 >
                     <p className="text-white/80 text-lg">
-                        More exciting games coming soon...
+                        Nhiều trò chơi thú vị hơn sắp ra mắt...
                     </p>
                 </motion.div>
             </main>
@@ -250,15 +250,18 @@ const HomePage = () => {
 
                                 {/* Messages */}
                                 <div className="flex-1 text-center">
-                                    <h2 className="text-3xl font-bold text-white text-center mb-8">
-                                        Messages from Bosses and Leaders
+                                    <h2 className="text-3xl font-bold text-white text-center mb-2">
+                                        Lời Nhắn Từ Sếp
                                     </h2>
+                                    <p className="text-white/60 text-sm italic mb-6">
+                                        (Tôi bịa đấy - mấy sếp deos nói vậy) - Tòn
+                                    </p>
                                     <h3 className="text-2xl font-bold text-white mb-4">
                                         {leaders[currentSlide].name}
                                     </h3>
                                     <div className="space-y-3">
                                         <p className="text-white/90 text-lg italic">
-                                            "{leaders[currentSlide].messageEN}"
+                                            "{leaders[currentSlide].messageVN}"
                                         </p>
                                         <p className="text-white/90 text-lg italic">
                                             "{leaders[currentSlide].messageCN}"

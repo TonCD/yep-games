@@ -17,6 +17,7 @@ export default function DressCodeRoomPage() {
   const [results, setResults] = useState<VoteResult[]>([]);
   const [isRevealing, setIsRevealing] = useState(false);
   const [showPodium, setShowPodium] = useState(false);
+  const [showQuestion, setShowQuestion] = useState(false);
 
   useEffect(() => {
     if (!roomCode) {
@@ -62,7 +63,11 @@ export default function DressCodeRoomPage() {
       return;
     }
 
-    setIsRevealing(true);
+    // First show question for 3 seconds
+    setShowQuestion(true);
+    setTimeout(() => {
+      setShowQuestion(false);
+      setIsRevealing(true);
 
     // Reveal from bottom to top: rank 3 → 2 → 1
     setTimeout(() => {
@@ -99,6 +104,7 @@ export default function DressCodeRoomPage() {
       }, 250);
 
       // Show podium after confetti
+    }, 3000); // End of question timeout
       setTimeout(() => {
         setShowPodium(true);
       }, 1500);
@@ -173,7 +179,7 @@ export default function DressCodeRoomPage() {
           <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
             <div>
               <h1 className="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-pink-500 to-purple-600 mb-2">
-                👗 Dresscode Vote - Host
+                👗 Dresscode Vote - Host | 服装投票 - 主持人
               </h1>
               <div className="flex items-center gap-4">
                 <span className="text-gray-600">Room Code:</span>
@@ -295,6 +301,22 @@ export default function DressCodeRoomPage() {
         {/* Results - Podium First, Then Rankings */}
         {showResults && results.length >= 3 && (
           <div className="space-y-6">
+            {/* Question Screen before reveal */}
+            {showQuestion && (
+              <motion.div
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                className="bg-white rounded-2xl shadow-xl p-12 text-center"
+              >
+                <h2 className="text-4xl md:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-pink-500 to-purple-600 mb-6">
+                  Ai sẽ là công chúa đẹp nhất trong đêm nayyy? 👑
+                </h2>
+                <p className="text-2xl md:text-3xl text-gray-600">
+                  谁将成为今晚最美的公主？
+                </p>
+              </motion.div>
+            )}
+
             {/* Podium Display - Show after all revealed */}
             {showPodium && (
               <motion.div

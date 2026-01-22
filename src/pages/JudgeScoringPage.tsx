@@ -115,7 +115,7 @@ const JudgeScoringPage = () => {
               <span className="font-semibold">Rời phòng</span>
             </Link>
             <h1 className="text-2xl md:text-3xl font-bold text-white">
-              ⭐ Chấm Điểm
+              ⭐ Chấm Điểm | 评分
             </h1>
             <div className="w-24"></div>
           </div>

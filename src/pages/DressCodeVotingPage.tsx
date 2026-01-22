@@ -45,7 +45,7 @@ export default function DressCodeVotingPage() {
       <div className="max-w-2xl mx-auto">
         <div className="text-center mb-12">
           <h1 className="text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-pink-500 to-purple-600 mb-4">
-            👗 Dresscode Vote
+            👗 Dresscode Vote | 服装投票
           </h1>
           <p className="text-gray-600 text-lg">
             Bình chọn trang phục đẹp nhất!

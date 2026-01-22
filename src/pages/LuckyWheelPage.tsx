@@ -139,7 +139,7 @@ const LuckyWheelPage = () => {
             <span className="font-semibold">Trang chủ</span>
           </Link>
           <h1 className="text-2xl md:text-3xl font-bold text-white">
-            🎡 Vòng Quay May Mắn
+            🎡 Vòng Quay May Mắn | 幸运转盘
           </h1>
           <button
             onClick={resetAll}

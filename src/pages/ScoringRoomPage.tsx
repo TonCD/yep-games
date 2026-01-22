@@ -18,9 +18,15 @@ const ScoringRoomPage = () => {
   const [copiedJudgeId, setCopiedJudgeId] = useState('');
   const [isRevealing, setIsRevealing] = useState(false);
   const [revealedRanks, setRevealedRanks] = useState<number[]>([]);
+  const [showQuestion, setShowQuestion] = useState(false);
 
   // Countdown reveal animation
   const triggerCountdownReveal = async (ranking: any[]) => {
+    // First show question for 3 seconds
+    setShowQuestion(true);
+    await new Promise(resolve => setTimeout(resolve, 3000));
+    setShowQuestion(false);
+    
     setIsRevealing(true);
     const topCount = Math.min(5, ranking.length);
     
@@ -206,7 +212,7 @@ const ScoringRoomPage = () => {
               <span className="font-semibold">Quay lại</span>
             </Link>
             <h1 className="text-2xl md:text-3xl font-bold text-white">
-              🎯 Host Control Panel
+              🎯 Host Control Panel | 主持控制面板
             </h1>
             <div className="w-24"></div>
           </div>
@@ -401,9 +407,25 @@ const ScoringRoomPage = () => {
         {/* Results Section - Hidden until completed */}
         {room.isCompleted && (
           <div className="bg-white rounded-2xl shadow-2xl p-6">
-            <h2 className="text-3xl font-bold text-center text-gray-800 mb-8">
-              🏆 KẾT QUẢ CHÍNH THỨC
-            </h2>
+            {showQuestion ? (
+              // Question screen before reveal
+              <motion.div
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                className="text-center py-16"
+              >
+                <h2 className="text-4xl md:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-pink-600 mb-6">
+                  Tiết mục nào sẽ giành chiến thắng?
+                </h2>
+                <p className="text-2xl md:text-3xl text-gray-600">
+                  哪个节目会获胜？
+                </p>
+              </motion.div>
+            ) : (
+              <>
+                <h2 className="text-3xl font-bold text-center text-gray-800 mb-8">
+                  🏆 KẾT QUẢ CHÍNH THỨC
+                </h2>
 
             {ranking.length === 0 ? (
               <div className="text-center py-12 text-gray-500">
@@ -473,6 +495,8 @@ const ScoringRoomPage = () => {
                   })}
                 </AnimatePresence>
               </div>
+            )}
+              </>
             )}
           </div>
         )}

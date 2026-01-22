@@ -101,7 +101,7 @@ const BingoPage = () => {
             <span className="text-2xl">←</span>
             <span className="font-semibold">Trang chủ</span>
           </Link>
-          <h1 className="text-2xl md:text-3xl font-bold text-white">🎲 Lô Tô Việt Nam</h1>
+          <h1 className="text-2xl md:text-3xl font-bold text-white">🎲 Lô Tô Việt Nam | 贾户游戏</h1>
           {isStarted && (
             <button
               onClick={resetGame}

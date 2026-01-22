@@ -235,7 +235,7 @@ export default function DressCodeParticipantPage() {
         <div className="max-w-2xl mx-auto">
           <div className="bg-white rounded-2xl shadow-xl p-8">
             <h1 className="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-pink-500 to-purple-600 mb-2 text-center">
-              👗 Dresscode Vote
+              👗 Dresscode Vote | 服装投票
             </h1>
             <p className="text-gray-600 text-center mb-6">Room: {roomCode}</p>
 
