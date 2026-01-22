@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Link, useParams, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import confetti from 'canvas-confetti';
+import { useSound, SOUNDS } from '../hooks/useSound';
 import { subscribeToRoom, addJudge, addPerformance, removeJudge, completeRoom, calculateRanking } from '../services/roomService';
 import type { Room } from '../types/room';
 
@@ -19,6 +20,7 @@ const ScoringRoomPage = () => {
   const [isRevealing, setIsRevealing] = useState(false);
   const [revealedRanks, setRevealedRanks] = useState<number[]>([]);
   const [showQuestion, setShowQuestion] = useState(false);
+  const { play } = useSound();
 
   // Countdown reveal animation
   const triggerCountdownReveal = async (ranking: any[]) => {
@@ -37,7 +39,11 @@ const ScoringRoomPage = () => {
       
       // Confetti for top 1
       if (i === 0) {
-        setTimeout(() => triggerConfetti(), 500);
+        setTimeout(() => {
+          triggerConfetti();
+          // Play applause sound for winner
+          play(SOUNDS.applause, { volume: 0.4 });
+        }, 500);
       }
     }
     

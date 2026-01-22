@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useSound, SOUNDS } from '../hooks/useSound';
 
 interface Participant {
   id: number;
@@ -21,6 +22,7 @@ const LuckyWheelPage = () => {
   const [showModal, setShowModal] = useState(false);
   const [history, setHistory] = useState<WinnerHistory[]>([]);
   const [rotation, setRotation] = useState(0);
+  const { play } = useSound();
 
   // Real-time update: Khi gõ text, tự động parse và update participants
   useEffect(() => {
@@ -59,6 +61,9 @@ const LuckyWheelPage = () => {
 
     setIsSpinning(true);
     
+    // Play spinning sound
+    const spinAudio = play(SOUNDS.wheelSpin, { volume: 0.3, loop: true });
+    
     // Random rotation (5-10 vòng quay)
     const spins = 5 + Math.random() * 5;
     const randomRotation = 360 * spins + Math.random() * 360;
@@ -66,11 +71,19 @@ const LuckyWheelPage = () => {
 
     // Chọn người thắng sau 3 giây
     setTimeout(() => {
+      // Stop spinning sound
+      if (spinAudio) {
+        spinAudio.pause();
+      }
+      
       const randomIndex = Math.floor(Math.random() * activeParticipants.length);
       const winnerName = activeParticipants[randomIndex].name;
       setWinner(winnerName);
       setIsSpinning(false);
       setShowModal(true);
+      
+      // Play winner sound
+      play(SOUNDS.wheelWin, { volume: 0.5 });
 
       // Thêm vào lịch sử
       const now = new Date();

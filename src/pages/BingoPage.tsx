@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useSound, SOUNDS } from '../hooks/useSound';
 
 interface DrawnNumber {
   number: number;
@@ -15,6 +16,7 @@ const BingoPage = () => {
   const [history, setHistory] = useState<DrawnNumber[]>([]);
   const [currentNumber, setCurrentNumber] = useState<number | null>(null);
   const [isDrawing, setIsDrawing] = useState(false);
+  const { play } = useSound();
 
   const startGame = () => {
     const num = parseInt(inputMaxNumber);
@@ -70,8 +72,8 @@ const BingoPage = () => {
 
         setIsDrawing(false);
 
-        // Play sound effect (optional)
-        // new Audio('/ting.mp3').play();
+        // Play success sound
+        play(SOUNDS.bingoClick, { volume: 0.4 });
       }
     }, 50);
   };

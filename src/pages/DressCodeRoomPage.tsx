@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import confetti from 'canvas-confetti';
+import { useSound, SOUNDS } from '../hooks/useSound';
 import type { DressCodeRoom, VoteResult } from '../types/dressCode';
 import { calculateVoteResults } from '../types/dressCode';
 import { subscribeToRoom, completeRoom, getRoomByCode } from '../services/dressCodeService';
@@ -18,6 +19,7 @@ export default function DressCodeRoomPage() {
   const [isRevealing, setIsRevealing] = useState(false);
   const [showPodium, setShowPodium] = useState(false);
   const [showQuestion, setShowQuestion] = useState(false);
+  const { play } = useSound();
 
   useEffect(() => {
     if (!roomCode) {
@@ -81,6 +83,9 @@ export default function DressCodeRoomPage() {
     setTimeout(() => {
       setRevealedRanks([0, 1, 2]); // Show rank 1 (winner)
       setIsRevealing(false);
+      
+      // Play confetti sound
+      play(SOUNDS.confetti, { volume: 0.4 });
       
       // Trigger confetti for winner
       confetti({
