@@ -1,5 +1,9 @@
 # 🎮 GETELL YEP 游戏中心
 
+[![en](https://img.shields.io/badge/lang-English-blue.svg)](README.md)
+[![vn](https://img.shields.io/badge/lang-Tiếng_Việt-red.svg)](README_VN.md)
+[![cn](https://img.shields.io/badge/lang-中文-yellow.svg)](README_CN.md)
+
 为 GETELL 公司团建活动和公司活动设计的迷你游戏网站。
 
 ## 🎯 游戏列表

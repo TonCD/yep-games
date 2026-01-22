@@ -1,5 +1,9 @@
 # 🎮 GETELL YEP GAMES
 
+[![en](https://img.shields.io/badge/lang-English-blue.svg)](README.md)
+[![vn](https://img.shields.io/badge/lang-Tiếng_Việt-red.svg)](README_VN.md)
+[![cn](https://img.shields.io/badge/lang-中文-yellow.svg)](README_CN.md)
+
 Mini-games website for GETELL company team building activities and events.
 
 ## 🎯 Games
