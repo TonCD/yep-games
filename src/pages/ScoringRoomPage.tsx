@@ -3,7 +3,7 @@ import { Link, useParams, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import confetti from 'canvas-confetti';
 import { useSound, SOUNDS } from '../hooks/useSound';
-import { subscribeToRoom, addJudge, addPerformance, removeJudge, completeRoom, calculateRanking } from '../services/roomService';
+import { subscribeToRoom, addJudge, addPerformance, removeJudge, removePerformance, completeRoom, calculateRanking } from '../services/roomService';
 import type { Room } from '../types/room';
 
 const ScoringRoomPage = () => {
@@ -35,6 +35,8 @@ const ScoringRoomPage = () => {
     // Reveal from bottom to top (top 5 → top 1)
     for (let i = topCount - 1; i >= 0; i--) {
       await new Promise(resolve => setTimeout(resolve, 1500)); // 1.5s delay between each
+      // Play swoosh sound when revealing each rank
+      play(SOUNDS.swoosh, { volume: 0.3 });
       setRevealedRanks(prev => [...prev, i]);
       
       // Confetti for top 1
@@ -128,6 +130,21 @@ const ScoringRoomPage = () => {
     } catch (err) {
       console.error(err);
       alert('Không thể thêm tiết mục');
+    }
+  };
+
+  const handleRemovePerformance = async (performanceId: string, performanceName: string) => {
+    if (!roomId) return;
+    
+    if (!window.confirm(`Xóa tiết mục "${performanceName}"?\n\nĐiểm của tất cả giám khảo cho tiết mục này sẽ bị xóa.`)) {
+      return;
+    }
+    
+    try {
+      await removePerformance(roomId, performanceId);
+    } catch (err) {
+      console.error(err);
+      alert('Không thể xóa tiết mục');
     }
   };
 
@@ -386,11 +403,22 @@ const ScoringRoomPage = () => {
                         <div className="font-semibold text-gray-800">
                           #{index + 1} - {perf.name}
                         </div>
-                        <div className={`text-sm px-2 py-1 rounded ${
-                          isComplete ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-600'
-                        }`}>
-                          {judgedCount}/{room.judges.length || 0}
-                          {isComplete && ' ✓'}
+                        <div className="flex items-center gap-2">
+                          <div className={`text-sm px-2 py-1 rounded ${
+                            isComplete ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-600'
+                          }`}>
+                            {judgedCount}/{room.judges.length || 0}
+                            {isComplete && ' ✓'}
+                          </div>
+                          {!room.isCompleted && (
+                            <button
+                              onClick={() => handleRemovePerformance(perf.id, perf.name)}
+                              className="text-red-500 hover:text-red-700 p-1 hover:bg-red-50 rounded transition-colors"
+                              title="Xóa tiết mục"
+                            >
+                              🗑️
+                            </button>
+                          )}
                         </div>
                       </div>
                       {/* Progress bar */}

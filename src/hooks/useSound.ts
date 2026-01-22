@@ -79,6 +79,7 @@ export const SOUNDS = {
   confetti: '/sounds/victory_3s.mp3',      // Victory/fireworks (3s)
   applause: '/sounds/applause_26s.mp3',    // Applause (26s)
   drumroll: '/sounds/drumroll_4s.mp3',     // Suspense drumroll (4s)
+  swoosh: '/sounds/swoosh_1s.mp3',         // Swoosh for rank reveal (1s)
   
   // UI
   success: '/sounds/success_1s.mp3',       // Success tone (1s)

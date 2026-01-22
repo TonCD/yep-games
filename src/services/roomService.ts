@@ -177,6 +177,35 @@ export const removeJudge = async (roomId: string, judgeId: string): Promise<void
   });
 };
 
+// Remove performance from room
+export const removePerformance = async (roomId: string, performanceId: string): Promise<void> => {
+  const roomRef = doc(db, 'rooms', roomId);
+  const roomSnap = await getDoc(roomRef);
+  
+  if (!roomSnap.exists()) {
+    throw new Error('Room not found');
+  }
+  
+  const room = roomSnap.data() as Room;
+  
+  // Remove performance
+  const updatedPerformances = room.performances.filter(p => p.id !== performanceId);
+  
+  // Re-order remaining performances
+  const reorderedPerformances = updatedPerformances.map((p, index) => ({
+    ...p,
+    order: index + 1
+  }));
+  
+  // Remove all scores for this performance
+  const updatedScores = room.scores.filter(s => s.performanceId !== performanceId);
+  
+  await updateDoc(roomRef, {
+    performances: reorderedPerformances,
+    scores: updatedScores
+  });
+};
+
 // Mark room as completed
 export const completeRoom = async (roomId: string): Promise<void> => {
   const roomRef = doc(db, 'rooms', roomId);

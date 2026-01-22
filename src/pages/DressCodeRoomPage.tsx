@@ -73,14 +73,17 @@ export default function DressCodeRoomPage() {
 
     // Reveal from bottom to top: rank 3 → 2 → 1
     setTimeout(() => {
+      play(SOUNDS.swoosh, { volume: 0.3 });
       setRevealedRanks([2]); // Show rank 3
     }, 500);
 
     setTimeout(() => {
+      play(SOUNDS.swoosh, { volume: 0.3 });
       setRevealedRanks([1, 2]); // Show rank 2
     }, 2000);
 
     setTimeout(() => {
+      play(SOUNDS.swoosh, { volume: 0.3 });
       setRevealedRanks([0, 1, 2]); // Show rank 1 (winner)
       setIsRevealing(false);
       
