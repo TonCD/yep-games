@@ -12,13 +12,13 @@ const HomePage = () => {
 
     const leaders = [
         {
-            name: 'James Wang',
+            name: 'Sếp James Wang | 王平总',
             image: jamesWang,
             messageVN: 'Cảm ơn sự cống hiến và làm việc chăm chỉ của các bạn!',
             messageCN: '感谢您的奉献和辛勤工作！',
         },
         {
-            name: 'Gou HuaDe',
+            name: 'Sếp Guo HuaDe | 郭华德总',
             image: GouHuaDe,
             messageVN: 'Những nỗ lực của các bạn làm cho công ty chúng ta mạnh mẽ hơn!',
             messageCN: '您的努力使我们的公司更强大！',
@@ -202,6 +202,35 @@ const HomePage = () => {
                             </div>
                         </Link>
                     </motion.div>
+
+                    {/* Spy Game */}
+                    <motion.div
+                        initial={{ opacity: 0, scale: 0.9 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        transition={{ duration: 0.5, delay: 0.6 }}
+                        whileHover={{ scale: 1.05 }}
+                        whileTap={{ scale: 0.95 }}
+                    >
+                        <Link to="/spy/create">
+                            <div className="bg-gradient-to-br from-purple-100 to-pink-100 rounded-2xl shadow-2xl p-8 h-full cursor-pointer hover:shadow-3xl transition-all border-2 border-purple-300">
+                                <div className="text-6xl mb-4 text-center">🕵️</div>
+                                <h2 className="text-3xl font-bold text-gray-800 mb-3 text-center">
+                                    Trò Chơi Gián Điệp
+                                </h2>
+                                <p className="text-purple-600 font-semibold text-center mb-1">
+                                    间谍游戏
+                                </p>
+                                <p className="text-gray-600 text-center">
+                                    Ai là gián điệp ẩn trong đám đông?
+                                </p>
+                                <div className="mt-6 text-center">
+                                    <span className="inline-block px-6 py-2 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-full font-semibold">
+                                        🎮 Chơi Ngay →
+                                    </span>
+                                </div>
+                            </div>
+                        </Link>
+                    </motion.div>
                 </div>
 
                 {/* Coming Soon */}
@@ -309,7 +338,7 @@ const HomePage = () => {
 
             {/* Footer */}
             <footer className="text-center py-8 text-white/70">
-                <p>Game made by TON TRAN © 2026</p>
+                <p>Game made by TON TRAN © 2026 (Liên hệ riêng để được cơ cấu) </p>
             </footer>
         </div>
     );
