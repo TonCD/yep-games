@@ -9,10 +9,12 @@ import {
   endSpyGame 
 } from '../services/spyRoomService';
 import type { SpyRoom } from '../types/spy';
+import { useAlert } from '../contexts/AlertContext';
 
 const SpyHostPage = () => {
   const { roomId } = useParams<{ roomId: string }>();
   const navigate = useNavigate();
+  const { showError, showSuccess, showWarning } = useAlert();
   
   const [room, setRoom] = useState<SpyRoom | null>(null);
   const [loading, setLoading] = useState(true);
@@ -37,7 +39,7 @@ const SpyHostPage = () => {
         setRoom(roomData);
         setLoading(false);
       } else {
-        alert('Phòng không tồn tại hoặc đã hết hạn!');
+        showError('Phòng không tồn tại hoặc đã hết hạn!');
         navigate('/spy/create');
       }
     });
@@ -48,24 +50,24 @@ const SpyHostPage = () => {
   const copyRoomLink = () => {
     const link = `${window.location.origin}/spy/room/${roomId}`;
     navigator.clipboard.writeText(link);
-    alert('Đã copy link phòng! 📋');
+    showSuccess('Đã copy link phòng! 📋');
   };
 
   const handleStartGame = async () => {
     if (!roomId || !room) return;
     
     if (!civilianKeyword.trim() || !spyKeyword.trim()) {
-      alert('Vui lòng nhập đầy đủ từ khóa!');
+      showWarning('Vui lòng nhập đầy đủ từ khóa!');
       return;
     }
 
     if (room.players.length < 3) {
-      alert('Cần ít nhất 3 người chơi để bắt đầu!');
+      showWarning('Cần ít nhất 3 người chơi để bắt đầu!');
       return;
     }
 
     if (spyCount < 1 || spyCount >= room.players.length) {
-      alert(`Số gián điệp phải từ 1 đến ${room.players.length - 1}!`);
+      showWarning(`Số gián điệp phải từ 1 đến ${room.players.length - 1}!`);
       return;
     }
 
@@ -74,7 +76,7 @@ const SpyHostPage = () => {
       await startSpyGame(roomId, spyCount, civilianKeyword, spyKeyword);
       setShowSetupModal(false);
     } catch (error: any) {
-      alert(error.message || 'Không thể bắt đầu game!');
+      showError(error.message || 'Không thể bắt đầu game!');
     } finally {
       setIsStarting(false);
     }
@@ -89,7 +91,7 @@ const SpyHostPage = () => {
     try {
       await eliminatePlayer(roomId, playerId);
     } catch (error) {
-      alert('Không thể loại người chơi!');
+      showError('Không thể loại người chơi!');
     }
   };
 
@@ -102,7 +104,7 @@ const SpyHostPage = () => {
     try {
       await removePlayerFromSpyRoom(roomId, playerId);
     } catch (error) {
-      alert('Không thể xóa người chơi!');
+      showError('Không thể xóa người chơi!');
     }
   };
 
@@ -128,7 +130,7 @@ const SpyHostPage = () => {
       await endSpyGame(roomId);
       navigate('/spy/create');
     } catch (error) {
-      alert('Không thể kết thúc game!');
+      showError('Không thể kết thúc game!');
     }
   };
 

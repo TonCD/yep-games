@@ -10,12 +10,14 @@ import {
   submitVotes,
   getUserStatus,
 } from '../services/dressCodeService';
+import { useAlert } from '../contexts/AlertContext';
 
 type Step = 'loading' | 'upload' | 'voting' | 'completed' | 'room-completed';
 
 export default function DressCodeParticipantPage() {
   const { roomCode } = useParams<{ roomCode: string }>();
   const navigate = useNavigate();
+  const { showWarning } = useAlert();
   const [room, setRoom] = useState<DressCodeRoom | null>(null);
   const [step, setStep] = useState<Step>('loading');
   const [error, setError] = useState('');
@@ -88,13 +90,13 @@ export default function DressCodeParticipantPage() {
 
     // Validate file size (10MB)
     if (file.size > 10 * 1024 * 1024) {
-      alert('Ảnh quá lớn! Vui lòng chọn ảnh dưới 10MB.');
+      showWarning('Ảnh quá lớn! Vui lòng chọn ảnh dưới 10MB.');
       return;
     }
 
     // Validate file type
     if (!file.type.startsWith('image/')) {
-      alert('Chỉ chấp nhận file ảnh!');
+      showWarning('Chỉ chấp nhận file ảnh!');
       return;
     }
 
@@ -112,17 +114,22 @@ export default function DressCodeParticipantPage() {
 
   const handleSubmitEntry = async () => {
     if (!name.trim()) {
-      alert('Vui lòng nhập tên của bạn!');
+      showWarning('Vui lòng nhập tên của bạn!');
       return;
     }
 
-    if (!selectedFile) {
-      alert('Vui lòng tải lên ảnh dresscode!');
+    if (!previewUrl) {
+      showWarning('Vui lòng tải lên ảnh dresscode!');
       return;
     }
 
     if (!message.trim()) {
-      alert('Vui lòng nhập lời nhắn!');
+      showWarning('Vui lòng nhập lời nhắn!');
+      return;
+    }
+
+    if (!selectedFile) {
+      showWarning('Vui lòng chọn file ảnh!');
       return;
     }
 
@@ -147,7 +154,7 @@ export default function DressCodeParticipantPage() {
 
   const handleToggleVote = (targetDeviceId: string) => {
     if (targetDeviceId === deviceId) {
-      alert('Không thể vote cho chính mình!');
+      showWarning('Không thể vote cho chính mình!');
       return;
     }
 
@@ -155,7 +162,7 @@ export default function DressCodeParticipantPage() {
       setSelectedVotes(selectedVotes.filter((id) => id !== targetDeviceId));
     } else {
       if (selectedVotes.length >= 3) {
-        alert('Chỉ được vote tối đa 3 người!');
+        showWarning('Chỉ được vote tối đa 3 người!');
         return;
       }
       setSelectedVotes([...selectedVotes, targetDeviceId]);
@@ -164,7 +171,7 @@ export default function DressCodeParticipantPage() {
 
   const handleSubmitVotes = async () => {
     if (selectedVotes.length === 0) {
-      alert('Vui lòng chọn ít nhất 1 người!');
+      showWarning('Vui lòng chọn ít nhất 1 người!');
       return;
     }
 

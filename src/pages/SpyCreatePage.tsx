@@ -2,9 +2,11 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { createSpyRoom } from '../services/spyRoomService';
+import { useAlert } from '../contexts/AlertContext';
 
 const SpyCreatePage = () => {
   const navigate = useNavigate();
+  const { showError } = useAlert();
   const [isCreating, setIsCreating] = useState(false);
 
   const handleCreateRoom = async () => {
@@ -16,7 +18,7 @@ const SpyCreatePage = () => {
       navigate(`/spy/host/${roomId}`);
     } catch (error) {
       console.error('Error creating room:', error);
-      alert('Không thể tạo phòng. Vui lòng thử lại!');
+      showError('Không thể tạo phòng. Vui lòng thử lại!');
     } finally {
       setIsCreating(false);
     }

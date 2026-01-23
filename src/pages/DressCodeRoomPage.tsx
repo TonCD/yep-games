@@ -6,10 +6,12 @@ import { useSound, SOUNDS } from '../hooks/useSound';
 import type { DressCodeRoom, VoteResult } from '../types/dressCode';
 import { calculateVoteResults } from '../types/dressCode';
 import { subscribeToRoom, completeRoom, getRoomByCode } from '../services/dressCodeService';
+import { useAlert } from '../contexts/AlertContext';
 
 export default function DressCodeRoomPage() {
   const { roomCode } = useParams<{ roomCode: string }>();
   const navigate = useNavigate();
+  const { showError, showSuccess } = useAlert();
   const [room, setRoom] = useState<DressCodeRoom | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
@@ -140,14 +142,14 @@ export default function DressCodeRoomPage() {
       setShowResults(true);
       startCountdownAnimation(voteResults);
     } catch (err: any) {
-      alert(err.message || 'Có lỗi xảy ra!');
+      showError(err.message || 'Có lỗi xảy ra!');
     }
   };
 
   const copyParticipantLink = () => {
     const link = `${window.location.origin}/dresscode/join/${roomCode}`;
     navigator.clipboard.writeText(link);
-    alert('✅ Đã copy link! Gửi cho mọi người nhé!');
+    showSuccess('✅ Đã copy link! Gửi cho mọi người nhé!');
   };
 
   if (loading) {

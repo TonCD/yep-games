@@ -3,10 +3,12 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { subscribeToSpyRoom } from '../services/spyRoomService';
 import type { SpyRoom, SpyPlayer } from '../types/spy';
+import { useAlert } from '../contexts/AlertContext';
 
 const SpyPlayerPage = () => {
   const { roomId } = useParams<{ roomId: string }>();
   const navigate = useNavigate();
+  const { showError } = useAlert();
   
   const [room, setRoom] = useState<SpyRoom | null>(null);
   const [loading, setLoading] = useState(true);
@@ -39,7 +41,7 @@ const SpyPlayerPage = () => {
           setCurrentPlayer(player);
         } else {
           // Player was removed
-          alert('Bạn đã bị xóa khỏi phòng!');
+          showError('Bạn đã bị xóa khỏi phòng!');
           localStorage.removeItem('spyPlayerId');
           localStorage.removeItem('spyPlayerName');
           localStorage.removeItem('spyRoomId');
@@ -48,7 +50,7 @@ const SpyPlayerPage = () => {
         
         setLoading(false);
       } else {
-        alert('Phòng không tồn tại hoặc đã hết hạn!');
+        showError('Phòng không tồn tại hoặc đã hết hạn!');
         navigate('/spy/join');
       }
     });
