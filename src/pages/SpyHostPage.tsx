@@ -59,8 +59,13 @@ const SpyHostPage = () => {
       return;
     }
 
-    if (spyCount >= room.players.length) {
-      alert('Số gián điệp phải nhỏ hơn số người chơi!');
+    if (room.players.length < 3) {
+      alert('Cần ít nhất 3 người chơi để bắt đầu!');
+      return;
+    }
+
+    if (spyCount < 1 || spyCount >= room.players.length) {
+      alert(`Số gián điệp phải từ 1 đến ${room.players.length - 1}!`);
       return;
     }
 
@@ -235,12 +240,20 @@ const SpyHostPage = () => {
             )}
 
             {room.status === 'playing' && (
-              <button
-                onClick={handleEndGame}
-                className="bg-red-500 hover:bg-red-600 text-white px-6 py-3 rounded-xl font-bold transition-colors"
-              >
-                🔄 KẾT THÚC & TẠO MỚI
-              </button>
+              <div className="flex gap-2">
+                <button
+                  onClick={() => setShowSetupModal(true)}
+                  className="bg-green-500 hover:bg-green-600 text-white px-6 py-3 rounded-xl font-bold transition-colors"
+                >
+                  🔄 GAME MỚI
+                </button>
+                <button
+                  onClick={handleEndGame}
+                  className="bg-red-500 hover:bg-red-600 text-white px-6 py-3 rounded-xl font-bold transition-colors"
+                >
+                  🏁 KẾT THÚC
+                </button>
+              </div>
             )}
           </div>
 
@@ -296,7 +309,17 @@ const SpyHostPage = () => {
                     className="bg-white/5 rounded-lg p-4 border border-white/10 flex items-center justify-between"
                   >
                     <div className="flex items-center gap-3">
-                      <div className="text-white/50 font-mono">#{index + 1}</div>
+                      <div className="text-white/50 font-mono text-sm">#{index + 1}</div>
+                      
+                      {/* Avatar */}
+                      <div className="w-10 h-10 rounded-full overflow-hidden bg-white flex-shrink-0">
+                        <img 
+                          src={player.avatar || `https://api.dicebear.com/7.x/avataaars/svg?seed=${player.name}`}
+                          alt={player.name}
+                          className="w-full h-full object-cover"
+                        />
+                      </div>
+                      
                       <div className="text-white font-semibold">{player.name}</div>
                       
                       {/* Role Badge (revealed) */}
@@ -362,6 +385,16 @@ const SpyHostPage = () => {
                   >
                     <div className="flex items-center gap-3">
                       <span className="text-xl">❌</span>
+                      
+                      {/* Avatar */}
+                      <div className="w-8 h-8 rounded-full overflow-hidden bg-white flex-shrink-0">
+                        <img 
+                          src={player.avatar || `https://api.dicebear.com/7.x/avataaars/svg?seed=${player.name}`}
+                          alt={player.name}
+                          className="w-full h-full object-cover grayscale"
+                        />
+                      </div>
+                      
                       <span className="text-white line-through">{player.name}</span>
                       {player.role && (
                         <span className={`px-2 py-1 rounded-full text-xs ${
@@ -433,17 +466,16 @@ const SpyHostPage = () => {
                 <label className="text-white font-semibold block mb-2">
                   Số lượng gián điệp:
                 </label>
-                <select
+                <input
+                  type="number"
+                  min="1"
+                  max={room.players.length - 1}
                   value={spyCount}
-                  onChange={(e) => setSpyCount(Number(e.target.value))}
-                  className="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-3 text-white"
-                >
-                  {Array.from({ length: Math.max(1, room.players.length - 2) }, (_, i) => i + 1).map(num => (
-                    <option key={num} value={num}>{num} gián điệp</option>
-                  ))}
-                </select>
+                  onChange={(e) => setSpyCount(Math.min(Math.max(1, Number(e.target.value)), room.players.length - 1))}
+                  className="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-3 text-white text-center text-xl font-bold"
+                />
                 <p className="text-white/50 text-xs mt-1">
-                  Khuyên dùng: {Math.max(1, Math.floor(room.players.length / 5))} - {Math.max(2, Math.floor(room.players.length / 4))} gián điệp
+                  Tối đa: {room.players.length - 1} | Khuyên dùng: {Math.max(1, Math.floor(room.players.length / 5))} - {Math.max(2, Math.floor(room.players.length / 4))} gián điệp
                 </p>
               </div>
 

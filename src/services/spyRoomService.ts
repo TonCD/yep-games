@@ -93,7 +93,8 @@ export const addPlayerToSpyRoom = async (roomId: string, playerName: string): Pr
     name: playerName,
     role: null, // Role assigned when game starts
     status: 'alive',
-    joinedAt: Date.now()
+    joinedAt: Date.now(),
+    avatar: `https://api.dicebear.com/7.x/avataaars/svg?seed=${encodeURIComponent(playerName)}`
   };
   
   await updateDoc(roomRef, {

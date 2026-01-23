@@ -100,12 +100,21 @@ const SpyPlayerPage = () => {
               <h3 className="text-white font-semibold mb-3">
                 Người chơi khác ({room.players.length - 1}):
               </h3>
-              <div className="max-h-40 overflow-y-auto space-y-2">
+              <div className="grid grid-cols-3 gap-3 max-h-60 overflow-y-auto">
                 {room.players
                   .filter(p => p.id !== currentPlayer.id)
                   .map(player => (
-                    <div key={player.id} className="text-white/70 text-sm">
-                      • {player.name}
+                    <div key={player.id} className="bg-white/5 rounded-lg p-3 flex flex-col items-center gap-2 border border-white/10">
+                      <div className="w-12 h-12 rounded-full overflow-hidden bg-white">
+                        <img 
+                          src={player.avatar || `https://api.dicebear.com/7.x/avataaars/svg?seed=${player.name}`}
+                          alt={player.name}
+                          className="w-full h-full object-cover"
+                        />
+                      </div>
+                      <div className="text-white/80 text-xs text-center truncate w-full">
+                        {player.name}
+                      </div>
                     </div>
                   ))}
               </div>

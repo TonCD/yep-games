@@ -11,6 +11,7 @@ export interface SpyPlayer {
   status: PlayerStatus;
   joinedAt: number;
   eliminatedAt?: number;
+  avatar?: string;
 }
 
 export interface SpySettings {
