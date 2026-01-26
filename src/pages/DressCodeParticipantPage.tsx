@@ -28,7 +28,8 @@ export default function DressCodeParticipantPage() {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string>('');
   const [uploading, setUploading] = useState(false);
-  const fileInputRef = useRef<HTMLInputElement>(null);
+  const cameraInputRef = useRef<HTMLInputElement>(null);
+  const galleryInputRef = useRef<HTMLInputElement>(null);
 
   // Voting step
   const [selectedVotes, setSelectedVotes] = useState<string[]>([]);
@@ -107,8 +108,11 @@ export default function DressCodeParticipantPage() {
   const handleRemovePhoto = () => {
     setSelectedFile(null);
     setPreviewUrl('');
-    if (fileInputRef.current) {
-      fileInputRef.current.value = '';
+    if (cameraInputRef.current) {
+      cameraInputRef.current.value = '';
+    }
+    if (galleryInputRef.current) {
+      galleryInputRef.current.value = '';
     }
   };
 
@@ -272,21 +276,44 @@ export default function DressCodeParticipantPage() {
                 </p>
                 
                 {!previewUrl ? (
-                  <div>
+                  <div className="space-y-3">
+                    {/* Camera Input */}
                     <input
-                      ref={fileInputRef}
+                      ref={cameraInputRef}
+                      type="file"
+                      accept="image/*"
+                      capture="environment"
+                      onChange={handleFileSelect}
+                      className="hidden"
+                    />
+                    {/* Gallery Input */}
+                    <input
+                      ref={galleryInputRef}
                       type="file"
                       accept="image/*"
                       onChange={handleFileSelect}
                       className="hidden"
                     />
+                    
+                    {/* Camera Button */}
                     <button
-                      onClick={() => fileInputRef.current?.click()}
+                      onClick={() => cameraInputRef.current?.click()}
                       disabled={uploading}
-                      className="w-full border-2 border-dashed border-gray-300 rounded-lg py-12 hover:border-pink-500 hover:bg-pink-50 transition-all disabled:opacity-50"
+                      className="w-full border-2 border-dashed border-blue-300 rounded-lg py-8 hover:border-blue-500 hover:bg-blue-50 transition-all disabled:opacity-50"
                     >
-                      <div className="text-6xl mb-2">📷</div>
-                      <div className="text-gray-600 font-medium">Chọn hoặc chụp ảnh</div>
+                      <div className="text-5xl mb-2">📷</div>
+                      <div className="text-gray-700 font-medium">Chụp Ảnh Ngay</div>
+                      <div className="text-sm text-gray-500">Mở camera</div>
+                    </button>
+                    
+                    {/* Gallery Button */}
+                    <button
+                      onClick={() => galleryInputRef.current?.click()}
+                      disabled={uploading}
+                      className="w-full border-2 border-dashed border-purple-300 rounded-lg py-8 hover:border-purple-500 hover:bg-purple-50 transition-all disabled:opacity-50"
+                    >
+                      <div className="text-5xl mb-2">🖼️</div>
+                      <div className="text-gray-700 font-medium">Chọn Từ Thư Viện</div>
                       <div className="text-sm text-gray-500">Max 10MB</div>
                     </button>
                   </div>
