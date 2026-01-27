@@ -61,23 +61,33 @@ const LuckyWheelPage = () => {
 
     setIsSpinning(true);
     
-    // Play spinning sound
+    // Play spinning sound (loop automatically for 6 seconds)
     const spinAudio = play(SOUNDS.wheelSpin, { volume: 0.3, loop: true });
     
-    // Random rotation (5-10 vòng quay)
-    const spins = 5 + Math.random() * 5;
-    const randomRotation = 360 * spins + Math.random() * 360;
-    setRotation(rotation + randomRotation);
+    // Chọn người thắng TRƯỚC
+    const randomIndex = Math.floor(Math.random() * activeParticipants.length);
+    const winnerName = activeParticipants[randomIndex].name;
+    
+    // Tính góc để mũi tên (ở trên = 0°) chỉ vào giữa phần của winner
+    const segmentAngle = 360 / activeParticipants.length;
+    const targetAngle = randomIndex * segmentAngle + segmentAngle / 2;
+    
+    // Random số vòng quay (5-8 vòng)
+    const spins = 5 + Math.floor(Math.random() * 4);
+    
+    // Tính rotation cuối cùng: nhiều vòng + góc để mũi tên chỉ đúng winner
+    // Mũi tên ở trên (0°), nên cần quay đến (360 - targetAngle) để winner về vị trí mũi tên
+    const finalRotation = 360 * spins + (360 - targetAngle);
+    
+    setRotation(rotation + finalRotation);
 
-    // Chọn người thắng sau 3 giây
+    // Hiển thị kết quả sau 6 giây
     setTimeout(() => {
       // Stop spinning sound
       if (spinAudio) {
         spinAudio.pause();
       }
       
-      const randomIndex = Math.floor(Math.random() * activeParticipants.length);
-      const winnerName = activeParticipants[randomIndex].name;
       setWinner(winnerName);
       setIsSpinning(false);
       setShowModal(true);
@@ -94,7 +104,7 @@ const LuckyWheelPage = () => {
         },
         ...history,
       ]);
-    }, 3000);
+    }, 6000);
   };
 
   const handleRemoveWinner = () => {
@@ -105,11 +115,15 @@ const LuckyWheelPage = () => {
         )
       );
     }
+    // Reset rotation về vị trí ban đầu để vòng quay cập nhật đúng
+    setRotation(0);
     setShowModal(false);
     setWinner(null);
   };
 
   const handleKeepWinner = () => {
+    // Reset rotation về vị trí ban đầu
+    setRotation(0);
     setShowModal(false);
     setWinner(null);
   };
@@ -209,7 +223,7 @@ const LuckyWheelPage = () => {
               <motion.div
                 animate={{ rotate: rotation }}
                 transition={{
-                  duration: 3,
+                  duration: 6,
                   ease: 'easeOut',
                 }}
                 className="w-80 h-80 rounded-full shadow-2xl flex items-center justify-center relative overflow-hidden"
