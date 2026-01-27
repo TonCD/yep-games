@@ -182,9 +182,10 @@ const LuckyWheelPage = () => {
       </header>
 
       <div className="container mx-auto px-4 py-8">
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* Left Panel - Input */}
-          <div className="lg:col-span-1">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          {/* Left Panel - Input + History */}
+          <div className="lg:col-span-1 space-y-8">
+            {/* Input Section */}
             <div className="bg-white rounded-2xl shadow-2xl p-6">
               <h2 className="text-2xl font-bold text-gray-800 mb-4">
                 Thêm người tham gia
@@ -219,9 +220,37 @@ const LuckyWheelPage = () => {
                 </div>
               </div>
             </div>
+
+            {/* History Section */}
+            <div className="bg-white rounded-2xl shadow-2xl p-6">
+              <h2 className="text-2xl font-bold text-gray-800 mb-4">
+                📜 Lịch sử trúng thưởng
+              </h2>
+              <div className="space-y-3 max-h-96 overflow-y-auto">
+                {history.length === 0 ? (
+                  <p className="text-gray-500 text-center py-8">
+                    Chưa có ai trúng thưởng
+                  </p>
+                ) : (
+                  history.map((h, index) => (
+                    <motion.div
+                      key={index}
+                      initial={{ opacity: 0, x: 20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      className="p-4 bg-gradient-to-r from-yellow-50 to-orange-50 rounded-lg border-l-4 border-orange-500"
+                    >
+                      <div className="font-bold text-gray-800">
+                        🏆 {h.name}
+                      </div>
+                      <div className="text-sm text-gray-600">{h.time}</div>
+                    </motion.div>
+                  ))
+                )}
+              </div>
+            </div>
           </div>
 
-          {/* Center - Wheel */}
+          {/* Right Panel - Wheel */}
           <div className="lg:col-span-1 flex flex-col items-center justify-center">
             <div className="relative">
               <motion.div
@@ -231,7 +260,7 @@ const LuckyWheelPage = () => {
                   duration: 6,
                   ease: 'easeOut',
                 }}
-                className="w-80 h-80 rounded-full shadow-2xl flex items-center justify-center relative overflow-hidden"
+                className="w-[480px] h-[480px] rounded-full shadow-2xl flex items-center justify-center relative overflow-hidden"
                 style={{
                   background:
                     activeCount === 0
@@ -256,20 +285,40 @@ const LuckyWheelPage = () => {
                       const endAngle = ((index + 1) / activeCount) * 360;
                       const midAngle = (startAngle + endAngle) / 2;
                       const radian = ((midAngle - 90) * Math.PI) / 180; // -90 để bắt đầu từ trên
-                      const radius = 110; // Khoảng cách từ tâm
+                      
+                      // Khoảng cách từ tâm - tăng dần khi có nhiều người
+                      // Ít người → gần tâm, nhiều người → xa tâm (gần viền)
+                      let radius = 100; // Mặc định cho 2-5 người
+                      if (activeCount >= 20) radius = 180;
+                      else if (activeCount >= 15) radius = 170;
+                      else if (activeCount >= 12) radius = 160;
+                      else if (activeCount >= 10) radius = 150;
+                      else if (activeCount >= 8) radius = 140;
+                      else if (activeCount >= 6) radius = 130;
+                      
                       const x = Math.cos(radian) * radius;
                       const y = Math.sin(radian) * radius;
+
+                      // Động font-size dựa trên số người
+                      let fontSize = '18px';
+                      if (activeCount > 20) fontSize = '11px';
+                      else if (activeCount > 15) fontSize = '12px';
+                      else if (activeCount > 10) fontSize = '13px';
+                      else if (activeCount > 8) fontSize = '14px';
+                      else if (activeCount > 5) fontSize = '16px';
 
                       return (
                         <div
                           key={person.id}
-                          className="absolute text-white font-bold text-sm drop-shadow-lg pointer-events-none"
+                          className="absolute text-white font-bold drop-shadow-lg pointer-events-none"
                           style={{
                             left: '50%',
                             top: '50%',
                             transform: `translate(calc(-50% + ${x}px), calc(-50% + ${y}px))`,
                             textAlign: 'center',
                             whiteSpace: 'nowrap',
+                            fontSize: fontSize,
+                            textShadow: '0 0 4px rgba(0,0,0,0.9), 0 0 8px rgba(0,0,0,0.7)',
                           }}
                         >
                           {person.name}
@@ -316,36 +365,6 @@ const LuckyWheelPage = () => {
             >
               {isSpinning ? '🌀 Đang quay...' : activeCount === 0 ? '⚠️ Chưa có người chơi' : '🎰 QUAY NGAY!'}
             </button>
-          </div>
-
-          {/* Right Panel - History */}
-          <div className="lg:col-span-1">
-            <div className="bg-white rounded-2xl shadow-2xl p-6">
-              <h2 className="text-2xl font-bold text-gray-800 mb-4">
-                📜 Lịch sử trúng thưởng
-              </h2>
-              <div className="space-y-3 max-h-96 overflow-y-auto">
-                {history.length === 0 ? (
-                  <p className="text-gray-500 text-center py-8">
-                    Chưa có ai trúng thưởng
-                  </p>
-                ) : (
-                  history.map((h, index) => (
-                    <motion.div
-                      key={index}
-                      initial={{ opacity: 0, x: 20 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      className="p-4 bg-gradient-to-r from-yellow-50 to-orange-50 rounded-lg border-l-4 border-orange-500"
-                    >
-                      <div className="font-bold text-gray-800">
-                        🏆 {h.name}
-                      </div>
-                      <div className="text-sm text-gray-600">{h.time}</div>
-                    </motion.div>
-                  ))
-                )}
-              </div>
-            </div>
           </div>
         </div>
       </div>
