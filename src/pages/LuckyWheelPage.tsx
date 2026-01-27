@@ -19,6 +19,7 @@ const LuckyWheelPage = () => {
   const [participants, setParticipants] = useState<Participant[]>([]);
   const [isSpinning, setIsSpinning] = useState(false);
   const [winner, setWinner] = useState<string | null>(null);
+  const [winnerId, setWinnerId] = useState<number | null>(null);
   const [showModal, setShowModal] = useState(false);
   const [history, setHistory] = useState<WinnerHistory[]>([]);
   const [rotation, setRotation] = useState(0);
@@ -89,6 +90,7 @@ const LuckyWheelPage = () => {
       }
       
       setWinner(winnerName);
+      setWinnerId(activeParticipants[randomIndex].id);
       setIsSpinning(false);
       setShowModal(true);
       
@@ -108,24 +110,25 @@ const LuckyWheelPage = () => {
   };
 
   const handleRemoveWinner = () => {
-    if (winner) {
+    if (winnerId !== null) {
       setParticipants(
         participants.map((p) =>
-          p.name === winner ? { ...p, isRemoved: true } : p
+          p.id === winnerId ? { ...p, isRemoved: true } : p
         )
       );
     }
-    // Reset rotation về vị trí ban đầu để vòng quay cập nhật đúng
+    // Reset rotation về 0 để vòng quay tính toán lại vị trí màu và tên đúng
     setRotation(0);
     setShowModal(false);
     setWinner(null);
+    setWinnerId(null);
   };
 
   const handleKeepWinner = () => {
-    // Reset rotation về vị trí ban đầu
-    setRotation(0);
+    // Không reset rotation - giữ nguyên vị trí hiện tại
     setShowModal(false);
     setWinner(null);
+    setWinnerId(null);
   };
 
   const resetAll = () => {
@@ -147,7 +150,8 @@ const LuckyWheelPage = () => {
     const hueStep = 360 / count;
     return Array.from({ length: count }, (_, i) => {
       const hue = i * hueStep;
-      return `hsl(${hue}, 70%, 60%)`;
+      // Màu đậm và rực rỡ hơn
+      return `hsl(${hue}, 85%, 55%)`;
     });
   };
 
@@ -221,6 +225,7 @@ const LuckyWheelPage = () => {
           <div className="lg:col-span-1 flex flex-col items-center justify-center">
             <div className="relative">
               <motion.div
+                key={activeParticipants.map(p => p.id).join('-')}
                 animate={{ rotate: rotation }}
                 transition={{
                   duration: 6,
@@ -291,7 +296,12 @@ const LuckyWheelPage = () => {
 
               {/* Pointer */}
               <div className="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-8">
-                <div className="w-0 h-0 border-l-[20px] border-r-[20px] border-t-[40px] border-l-transparent border-r-transparent border-t-red-500"></div>
+                <div 
+                  className="w-0 h-0 border-l-[20px] border-r-[20px] border-t-[40px] border-l-transparent border-r-transparent border-t-red-500"
+                  style={{
+                    filter: 'drop-shadow(0 0 8px rgba(0, 0, 0, 0.8)) drop-shadow(0 0 3px white)',
+                  }}
+                ></div>
               </div>
             </div>
 
