@@ -12,13 +12,13 @@ const HomePage = () => {
 
     const leaders = [
         {
-            name: 'Sếp James Wang | 王平总',
+            name: 'Sếp James Wang | 王总',
             image: jamesWang,
             messageVN: 'Cảm ơn sự cống hiến và làm việc chăm chỉ của các bạn!',
             messageCN: '感谢您的奉献和辛勤工作！',
         },
         {
-            name: 'Sếp Guo HuaDe | 郭华德总',
+            name: 'Sếp Guo HuaDe | 郭总',
             image: GouHuaDe,
             messageVN: 'Những nỗ lực của các bạn làm cho công ty chúng ta mạnh mẽ hơn!',
             messageCN: '您的努力使我们的公司更强大！',
